@@ -1,9 +1,12 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
-      <h1>NextJS</h1>
+    <main className="flex flex-col">
+      <h1>No es parte del nav</h1>
+      <Link href={"/home"}>Ir a ceprobis </Link>
     </main>
   );
 }
