@@ -5,7 +5,7 @@ const ComoencasaUcsm = (): JSX.Element => {
   return (
     <Layout>
       <main>
-        <h1>Catoexpress</h1>
+        <h1>Como en casa</h1>
       </main>
     </Layout>
   );

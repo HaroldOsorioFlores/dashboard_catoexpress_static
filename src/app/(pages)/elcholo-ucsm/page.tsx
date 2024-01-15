@@ -1,6 +1,7 @@
+"use client"
 import { Layout } from "@/components";
 
-export const ElcholoUcsm = (): JSX.Element => {
+const ElcholoUcsm = (): JSX.Element => {
   return (
     <Layout>
       <main>

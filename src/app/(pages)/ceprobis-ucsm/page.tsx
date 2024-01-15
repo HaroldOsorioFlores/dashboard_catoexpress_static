@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Products } from "@/models";
 import { ceprobisproducts } from "@/services";
 import { Layout } from "@/components";
+import { TableItems } from "@/components/container/table/table";
 
 const CeprobisUcsm = (): JSX.Element => {
   const [ceprobisProducts, setSeprobisProducts] = useState<Products[]>([]);
@@ -15,6 +16,7 @@ const CeprobisUcsm = (): JSX.Element => {
     };
     fetchData();
   }, []);
+
   return (
     <Layout>
       <main>
@@ -25,6 +27,8 @@ const CeprobisUcsm = (): JSX.Element => {
             <p>Descripcion: {item.description}</p>
           </div>
         ))}
+
+        <TableItems products={ceprobisProducts} />
       </main>
     </Layout>
   );

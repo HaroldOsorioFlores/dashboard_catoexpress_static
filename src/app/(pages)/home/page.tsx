@@ -1,3 +1,5 @@
+"use client"
+
 import { Layout } from "@/components";
 
 const Home = (): JSX.Element => {
