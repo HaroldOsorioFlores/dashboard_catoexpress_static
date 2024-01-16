@@ -1,6 +1,7 @@
 "use client";
 import {
   Button,
+  Input,
   Selection,
   Table,
   TableBody,
@@ -14,7 +15,8 @@ import { useCallback, useMemo, useState } from "react";
 
 import { Products } from "@/models";
 import { columTable } from "./table.model";
-import { Delete, Update } from "@/components";
+import { AddIcon, Delete, Search, Update } from "@/components";
+import Link from "next/link";
 
 export const TableItems = ({
   products,
@@ -47,6 +49,37 @@ export const TableItems = ({
       );
   }, []);
 
+  const topContent = useMemo(() => {
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex justify-between items-center gap-5">
+          <div className="flex w-full">
+            <Input
+              type="search"
+              placeholder="Buscar producto"
+              startContent={<Search props={{ className: "h-4 w-5" }} />}
+              size="sm"
+              className="sm:max-w-[44%] "
+            />
+          </div>
+          <div>
+            <Button
+              as={Link}
+              href="/"
+              color="primary"
+              endContent={<AddIcon props={{ className: "h-4 w-4" }} />}
+            >
+              Anadir producto
+            </Button>
+          </div>
+        </div>
+        <div>
+          <p className="text-sm text-default-400">Total {products.length}</p>
+        </div>
+      </div>
+    );
+  }, [products]);
+
   return (
     <Table
       color="secondary"
@@ -57,6 +90,7 @@ export const TableItems = ({
         wrapper: "max-h-[450px]",
       }}
       topContentPlacement="outside"
+      topContent={topContent}
     >
       <TableHeader>
         {columTable.map((colum, index) => {
