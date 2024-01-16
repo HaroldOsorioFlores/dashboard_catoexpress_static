@@ -4,16 +4,33 @@ import {
   Listbox,
   ListboxSection,
   ListboxItem,
+  Button,
 } from "@nextui-org/react";
 import Link from "next/link";
 
 import { mainAdmin, mainMenu, mainModules } from "@/utils";
-import { Dashboard, ManagmentUser, Module } from "..";
+import { Close, Dashboard, Hamburguer, ManagmentUser, Module } from "..";
 import { CatoexpressLogo } from "../../../public/catoexpresslogo";
+import { useState } from "react";
 
-export const Aside = ({ className }: { className: string }): JSX.Element => {
-  return (
+export const Aside = ({
+  className,
+}: {
+  className: string;
+}): React.ReactNode | null => {
+  const [visibleAside, setVisibleAside] = useState<boolean>(true);
+  return visibleAside ? (
     <aside className={className}>
+      <Button
+        size="sm"
+        variant="light"
+        className="flex justify-end  self-end relative left-3 top-3"
+        color="default"
+        onClick={() => setVisibleAside(!visibleAside)}
+      >
+        {Close}
+      </Button>
+
       <div className="self-center">
         <Link href="/home">{CatoexpressLogo}</Link>
       </div>
@@ -82,5 +99,9 @@ export const Aside = ({ className }: { className: string }): JSX.Element => {
         </ListboxSection>
       </Listbox>
     </aside>
+  ) : (
+    <Button size="sm" onClick={() => setVisibleAside(!visibleAside)} variant="light">
+      {Hamburguer}
+    </Button>
   );
 };

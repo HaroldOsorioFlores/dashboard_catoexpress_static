@@ -21,13 +21,6 @@ const CeprobisUcsm = (): JSX.Element => {
     <Layout>
       <main>
         <h1>Ceprobis</h1>
-        {ceprobisProducts.map((item, index) => (
-          <div key={index}>
-            <p>Titulo: {item.title}</p>
-            <p>Descripcion: {item.description}</p>
-          </div>
-        ))}
-
         <TableItems products={ceprobisProducts} />
       </main>
     </Layout>
