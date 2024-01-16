@@ -16,7 +16,7 @@ export const Layout = ({
           }
         />
       </section>
-      <section className=" py-5 pr-5 px-1 w-full flex flex-col gap-5">
+      <section className="p-5 md:pr-5 w-full flex flex-col gap-5">
         <section>
           <Nav className={"shadow-md rounded-md"} />
         </section>

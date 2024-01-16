@@ -2,7 +2,6 @@
 import {
   Button,
   Input,
-  Selection,
   Table,
   TableBody,
   TableCell,
@@ -23,6 +22,17 @@ export const TableItems = ({
 }: {
   products: Products[];
 }): JSX.Element => {
+  const [searchChange, setSearchChange] = useState<string>("");
+
+  const filterSearch = (): Products[] => {
+    const arraySearch: Products[] = products.filter((product) => {
+      return (product.title && product.description)
+        .toLocaleLowerCase()
+        .includes(searchChange.toLocaleLowerCase());
+    });
+    return arraySearch;
+  };
+
   const options = useCallback((item: Products, columnKey: React.Key) => {
     const cellValue = item[columnKey as keyof Products];
     if (columnKey === "title") return cellValue;
@@ -31,7 +41,6 @@ export const TableItems = ({
     if (columnKey === "price") return cellValue;
     if (columnKey === "urlImage")
       return <span className="flex overflow-x-auto w-44">{cellValue}</span>;
-
     if (columnKey === "actions")
       return (
         <div className="flex gap-2">
@@ -60,6 +69,7 @@ export const TableItems = ({
               startContent={<Search props={{ className: "h-4 w-5" }} />}
               size="sm"
               className="sm:max-w-[44%] "
+              onChange={(e) => setSearchChange(e.target.value)}
             />
           </div>
           <div>
@@ -87,7 +97,7 @@ export const TableItems = ({
       isHeaderSticky
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "max-h-[450px]",
+        wrapper: "sm:max-w-[23rem] md:max-w-full",
       }}
       topContentPlacement="outside"
       topContent={topContent}
@@ -98,7 +108,7 @@ export const TableItems = ({
         })}
       </TableHeader>
       <TableBody>
-        {products.map((product) => (
+        {filterSearch().map((product) => (
           <TableRow key={product._id}>
             {columTable.map((columnKey, index) => (
               <TableCell key={index}>
