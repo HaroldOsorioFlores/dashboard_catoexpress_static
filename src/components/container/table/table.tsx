@@ -1,7 +1,13 @@
 "use client";
 import {
   Button,
+  Divider,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Table,
   TableBody,
   TableCell,
@@ -9,20 +15,29 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 
 import { Products } from "@/models";
 import { columTable } from "./table.model";
-import { AddIcon, Delete, Search, Update } from "@/components";
+import { DeleteIcon, SearchIcon, AddProduct, UpdateIcon } from "@/components";
+import { deleteProductById } from "@/services";
+import { UpdateProduct } from "../product/updateProduct";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 export const TableItems = ({
   products,
+  refresh,
 }: {
   products: Products[];
+  refresh: () => void;
 }): JSX.Element => {
   const [searchChange, setSearchChange] = useState<string>("");
+  const router = useRouter();
+
+  const path = usePathname();
 
   const filterSearch = (): Products[] => {
     const arraySearch: Products[] = products.filter((product) => {
@@ -33,30 +48,55 @@ export const TableItems = ({
     return arraySearch;
   };
 
-  const options = useCallback((item: Products, columnKey: React.Key) => {
-    const cellValue = item[columnKey as keyof Products];
-    if (columnKey === "title") return cellValue;
-    if (columnKey === "description") return cellValue;
-    if (columnKey === "place") return cellValue;
-    if (columnKey === "price") return cellValue;
-    if (columnKey === "urlImage")
-      return <span className="flex overflow-x-auto w-44">{cellValue}</span>;
-    if (columnKey === "actions")
-      return (
-        <div className="flex gap-2">
-          <Tooltip content="Editar un producto">
-            <span className="cursor-pointer active:opacity-50 text-default-400">
-              <Update props={{ className: "h-5 w-5 " }} />
-            </span>
-          </Tooltip>
-          <Tooltip content="Borrar un producto">
-            <span className="cursor-pointer text-danger active:opacity-50">
-              <Delete props={{ className: "h-5 w-5 " }} />
-            </span>
-          </Tooltip>
-        </div>
-      );
-  }, []);
+  const options = useCallback(
+    (item: Products, columnKey: React.Key) => {
+      const cellValue = item[columnKey as keyof Products];
+
+      const deleteProduct = async (id: string): Promise<string> => {
+        const response: string = await deleteProductById(id, path);
+        console.log(response);
+        refresh();
+        return response;
+      };
+      if (columnKey === "title") return cellValue;
+      if (columnKey === "description") return cellValue;
+      if (columnKey === "place") return cellValue;
+      if (columnKey === "price") return cellValue;
+      if (columnKey === "urlImage")
+        return (
+          <span className="flex overflow-auto w-44 h-[2.3rem]">
+            {cellValue}
+          </span>
+        );
+      if (columnKey === "actions")
+        return (
+          <div className="flex gap-1">
+            <Tooltip content="Editar un producto">
+              <Button
+                className="cursor-pointer active:opacity-50 text-default-400  h-[2rem] w-[2rem] flex "
+                as={Link}
+                isIconOnly
+                variant="light"
+                href={`/product/update/${item._id}/${path}`}
+              >
+                <UpdateIcon props={{ className: "h-5 w-full self-center " }} />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Borrar un producto">
+              <Button
+                className="cursor-pointer text-danger active:opacity-50 h-[2rem] w-[2rem] flex"
+                onClick={() => deleteProduct(item._id)}
+                isIconOnly
+                variant="light"
+              >
+                <DeleteIcon props={{ className: "h-5 w-full  self-center" }} />
+              </Button>
+            </Tooltip>
+          </div>
+        );
+    },
+    [refresh, path]
+  );
 
   const topContent = useMemo(() => {
     return (
@@ -66,21 +106,14 @@ export const TableItems = ({
             <Input
               type="search"
               placeholder="Buscar producto"
-              startContent={<Search props={{ className: "h-4 w-5" }} />}
+              startContent={<SearchIcon props={{ className: "h-4 w-5" }} />}
               size="sm"
               className="sm:max-w-[44%] "
               onChange={(e) => setSearchChange(e.target.value)}
             />
           </div>
           <div>
-            <Button
-              as={Link}
-              href="/"
-              color="primary"
-              endContent={<AddIcon props={{ className: "h-4 w-4" }} />}
-            >
-              Anadir producto
-            </Button>
+            <AddProduct nameButton="Anadir producto" refresh={refresh} />
           </div>
         </div>
         <div>
@@ -88,7 +121,7 @@ export const TableItems = ({
         </div>
       </div>
     );
-  }, [products]);
+  }, [products, refresh]);
 
   return (
     <Table
@@ -97,7 +130,7 @@ export const TableItems = ({
       isHeaderSticky
       bottomContentPlacement="outside"
       classNames={{
-        wrapper: "sm:max-w-[23rem] md:max-w-full",
+        wrapper: "sm:max-w-[23rem] md:max-w-full max-h-[30rem]",
       }}
       topContentPlacement="outside"
       topContent={topContent}

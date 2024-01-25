@@ -1,3 +1,4 @@
+"use client";
 import { Layout } from "@/components";
 
 const PanificadoraUcsm = (): JSX.Element => {

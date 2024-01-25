@@ -9,9 +9,15 @@ import {
 import Link from "next/link";
 
 import { mainAdmin, mainMenu, mainModules } from "@/utils";
-import { Close, Dashboard, Hamburguer, ManagmentUser, Module } from "..";
-import { CatoexpressLogo } from "../../../public/catoexpresslogo";
+import {
+  CloseIcon,
+  DashboardIcon,
+  HamburguerIcon,
+  ManagmentUserIcon,
+  ModuleIcon,
+} from "..";
 import { useState } from "react";
+import { CatoexpressLogo } from "../../../public/catoexpresslogo";
 
 export const Aside = ({
   className,
@@ -28,11 +34,15 @@ export const Aside = ({
         color="default"
         onClick={() => setVisibleAside(!visibleAside)}
       >
-        {Close}
+        {CloseIcon}
       </Button>
 
-      <div className="self-center">
-        <Link href="/home">{CatoexpressLogo}</Link>
+      <div className="self-center mb-6">
+        <Link href="/home">
+          <CatoexpressLogo
+            props={{ className: "h-[4rem] w-[8rem]", fill: "#ffffff" }}
+          />
+        </Link>
       </div>
       <Divider className="bg-white mb-2" />
       <Listbox
@@ -52,7 +62,7 @@ export const Aside = ({
                   href={item.path}
                   className="w-full text-sm text-white flex p-2 items-center"
                 >
-                  <Dashboard className="text-white mr-3" /> {item.label}
+                  <DashboardIcon className="text-white mr-3" /> {item.label}
                 </Link>
               </ListboxItem>
             );
@@ -74,7 +84,7 @@ export const Aside = ({
                   href={item.path}
                   className="w-full text-sm text-white flex p-2 items-center"
                 >
-                  <Module className="text-white mr-3" /> {item.label}
+                  <ModuleIcon className="text-white mr-3" /> {item.label}
                 </Link>
               </ListboxItem>
             );
@@ -91,7 +101,7 @@ export const Aside = ({
                   href={item.path}
                   className="w-full text-sm text-white flex p-2 items-center"
                 >
-                  <ManagmentUser className="text-white mr-3" /> {item.label}
+                  <ManagmentUserIcon className="text-white mr-3" /> {item.label}
                 </Link>
               </ListboxItem>
             );
@@ -100,8 +110,12 @@ export const Aside = ({
       </Listbox>
     </aside>
   ) : (
-    <Button size="sm" onClick={() => setVisibleAside(!visibleAside)} variant="light">
-      {Hamburguer}
+    <Button
+      size="sm"
+      onClick={() => setVisibleAside(!visibleAside)}
+      variant="light"
+    >
+      {HamburguerIcon}
     </Button>
   );
 };

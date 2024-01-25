@@ -16,7 +16,7 @@ export const AddIcon = ({ props }: { props: Object }) => {
     </svg>
   );
 };
-export const Search = ({ props }: { props: Object }): JSX.Element => {
+export const SearchIcon = ({ props }: { props: Object }): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ export const Search = ({ props }: { props: Object }): JSX.Element => {
     </svg>
   );
 };
-export const Delete = ({ props }: { props: Object }) => {
+export const DeleteIcon = ({ props }: { props: Object }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +48,7 @@ export const Delete = ({ props }: { props: Object }) => {
     </svg>
   );
 };
-export const Update = ({ props }: { props: Object }) => {
+export const UpdateIcon = ({ props }: { props: Object }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ export const Update = ({ props }: { props: Object }) => {
     </svg>
   );
 };
-export const Hamburguer: Icon = (
+export const HamburguerIcon: Icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -78,7 +78,7 @@ export const Hamburguer: Icon = (
   </svg>
 );
 
-export const Close: Icon = (
+export const CloseIcon: Icon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -95,7 +95,7 @@ export const Close: Icon = (
   </svg>
 );
 
-export const Dashboard = ({ className }: { className: string }): Icon => (
+export const DashboardIcon = ({ className }: { className: string }): Icon => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -111,7 +111,7 @@ export const Dashboard = ({ className }: { className: string }): Icon => (
     />
   </svg>
 );
-export const Order = ({ className }: { className: string }): Icon => (
+export const OrderIcon = ({ className }: { className: string }): Icon => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -127,7 +127,7 @@ export const Order = ({ className }: { className: string }): Icon => (
     />
   </svg>
 );
-export const Module = ({ className }: { className: string }): Icon => (
+export const ModuleIcon = ({ className }: { className: string }): Icon => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -143,7 +143,11 @@ export const Module = ({ className }: { className: string }): Icon => (
     />
   </svg>
 );
-export const ManagmentUser = ({ className }: { className: string }): Icon => (
+export const ManagmentUserIcon = ({
+  className,
+}: {
+  className: string;
+}): Icon => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -160,7 +164,7 @@ export const ManagmentUser = ({ className }: { className: string }): Icon => (
   </svg>
 );
 
-export const CarShop = ({ className }: { className: string }): Icon => (
+export const CarShopIcon = ({ className }: { className: string }): Icon => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

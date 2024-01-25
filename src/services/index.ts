@@ -1,1 +1,1 @@
-export * from "./ceprobisproducts.service";
+export * from "./products.service";

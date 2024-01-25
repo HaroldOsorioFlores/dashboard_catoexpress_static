@@ -1,27 +1,31 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 
 import { Products } from "@/models";
-import { ceprobisproducts } from "@/services";
-import { Layout } from "@/components";
-import { TableItems } from "@/components/container/table/table";
+import { getAllProducts } from "@/services";
+import { Layout, TableItems } from "@/components";
 
 const CeprobisUcsm = (): JSX.Element => {
-  const [ceprobisProducts, setSeprobisProducts] = useState<Products[]>([]);
+  const [ceprobisProducts, setCeprobisProducts] = useState<Products[]>([]);
+  const [refreshTable, setRefreshTable] = useState(false);
   useEffect(() => {
     const fetchData = async (): Promise<Products[]> => {
-      const res: Products[] = await ceprobisproducts();
-      setSeprobisProducts(res);
+      const res: Products[] = await getAllProducts("/ceprobis-ucsm");
+      setCeprobisProducts(res);
       return [];
     };
+    refreshTable;
     fetchData();
-  }, []);
+  }, [refreshTable]);
 
   return (
     <Layout>
       <main>
         <h1>Ceprobis</h1>
-        <TableItems products={ceprobisProducts} />
+        <TableItems
+          products={ceprobisProducts}
+          refresh={() => setRefreshTable(!refreshTable)}
+        />
       </main>
     </Layout>
   );

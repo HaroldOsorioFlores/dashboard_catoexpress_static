@@ -20,7 +20,7 @@ export const Layout = ({
         <section>
           <Nav className={"shadow-md rounded-md"} />
         </section>
-        <section className="">{children}</section>
+        <section className="h-full w-full">{children}</section>
       </section>
     </section>
   );
