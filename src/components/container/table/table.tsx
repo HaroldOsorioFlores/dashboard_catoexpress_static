@@ -1,13 +1,7 @@
 "use client";
 import {
   Button,
-  Divider,
   Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Table,
   TableBody,
   TableCell,
@@ -15,17 +9,15 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-  useDisclosure,
 } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import { Products } from "@/models";
 import { columTable } from "./table.model";
 import { DeleteIcon, SearchIcon, AddProduct, UpdateIcon } from "@/components";
 import { deleteProductById } from "@/services";
-import { UpdateProduct } from "../product/updateProduct";
-import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
 
 export const TableItems = ({
   products,
@@ -35,7 +27,6 @@ export const TableItems = ({
   refresh: () => void;
 }): JSX.Element => {
   const [searchChange, setSearchChange] = useState<string>("");
-  const router = useRouter();
 
   const path = usePathname();
 
