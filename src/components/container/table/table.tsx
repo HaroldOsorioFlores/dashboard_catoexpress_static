@@ -61,7 +61,7 @@ export const TableItems = ({
       if (columnKey === "actions")
         return (
           <div className="flex gap-1">
-            <UpdateProduct id={item._id} />
+            <UpdateProduct id={item._id} refresh={refresh} />
             <Tooltip content="Borrar un producto">
               <Button
                 className="cursor-pointer text-danger active:opacity-50 h-[2rem] w-[2rem] flex"

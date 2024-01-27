@@ -20,13 +20,20 @@ import { AddIcon, UpdateIcon } from "@/components";
 import { Product } from "@/models";
 import { getProductById, updateProductById } from "@/services";
 
-export const UpdateProduct = ({ id }: { id: string }): JSX.Element => {
+export const UpdateProduct = ({
+  id,
+  refresh,
+}: {
+  id: string;
+  refresh: () => void;
+}): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [product, setProduct] = useState<Product>();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [fileImage, setFileImage] = useState<File>();
+  const [loading, setLoading] = useState<boolean>(false);
   const path = usePathname();
 
   useEffect(() => {
@@ -37,22 +44,21 @@ export const UpdateProduct = ({ id }: { id: string }): JSX.Element => {
     fetchProduct();
   }, [id, path]);
 
-  const handleClick = () => {
-    onOpen();
-    console.log({ product });
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const formData: FormData = new FormData();
     if (title) formData.append("title", title);
     if (description) formData.append("description", description);
     if (price) formData.append("price", price);
     if (fileImage) formData.append("file", fileImage ?? "");
-    if (formData) {
-      const response = await updateProductById(id, path, formData);
-      return console.log("respuesta: ", response);
-    }
+    const response = await updateProductById(id, path, formData);
+    refresh();
+    setLoading(false);
+    console.log("respuesta: ", response);
+    return setTimeout(() => {
+      onClose();
+    }, 400);
   };
 
   return (
@@ -60,7 +66,7 @@ export const UpdateProduct = ({ id }: { id: string }): JSX.Element => {
       <Tooltip content="Editar un producto">
         <Button
           className="cursor-pointer active:opacity-50 text-default-400  h-[2rem] w-[2rem] flex "
-          onClick={handleClick}
+          onClick={onOpen}
           isIconOnly
           variant="light"
         >
@@ -166,6 +172,7 @@ export const UpdateProduct = ({ id }: { id: string }): JSX.Element => {
                       endContent={<AddIcon props={{ className: "h-4 w-4" }} />}
                       color="primary"
                       type="submit"
+                      isLoading={loading}
                     >
                       Actualizar
                     </Button>
