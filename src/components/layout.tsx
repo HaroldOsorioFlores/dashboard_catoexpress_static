@@ -1,6 +1,3 @@
-"use client";
-
-import { useMemo } from "react";
 import { Aside, Nav } from ".";
 
 export const Layout = ({
@@ -8,8 +5,8 @@ export const Layout = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  const aside = useMemo(() => {
-    return (
+  return (
+    <section className=" flex bg-white">
       <section className=" max-sm:hidden p-5 h-screen  sticky top-0">
         <Aside
           className={
@@ -17,12 +14,6 @@ export const Layout = ({
           }
         />
       </section>
-    );
-  }, []);
-
-  return (
-    <section className=" flex bg-white">
-      {aside}
       <section className="p-5 md:pr-5 w-full flex flex-col gap-5">
         <section>
           <Nav className={"shadow-md rounded-md"} />

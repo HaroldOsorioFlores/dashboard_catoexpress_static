@@ -1,16 +1,16 @@
 "use client";
 import { useState, useEffect, use } from "react";
 
-import { Products } from "@/models";
+import { Product } from "@/models";
 import { getAllProducts } from "@/services";
 import { Layout, TableItems } from "@/components";
 
 const CeprobisUcsm = (): JSX.Element => {
-  const [ceprobisProducts, setCeprobisProducts] = useState<Products[]>([]);
+  const [ceprobisProducts, setCeprobisProducts] = useState<Product[]>([]);
   const [refreshTable, setRefreshTable] = useState(false);
   useEffect(() => {
-    const fetchData = async (): Promise<Products[]> => {
-      const res: Products[] = await getAllProducts("/ceprobis-ucsm");
+    const fetchData = async (): Promise<Product[]> => {
+      const res: Product[] = await getAllProducts("/ceprobis-ucsm");
       setCeprobisProducts(res);
       return [];
     };

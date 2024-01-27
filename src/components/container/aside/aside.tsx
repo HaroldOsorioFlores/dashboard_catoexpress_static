@@ -8,16 +8,16 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 
-import { mainAdmin, mainMenu, mainModules } from "@/utils";
 import {
   CloseIcon,
   DashboardIcon,
   HamburguerIcon,
   ManagmentUserIcon,
   ModuleIcon,
-} from "..";
+} from "../..";
 import { useState } from "react";
-import { CatoexpressLogo } from "../../../public/catoexpresslogo";
+import { CatoexpressLogo } from "../../../../public/catoexpresslogo";
+import { mainAdmin, mainMenu, mainModules } from "./aside-items";
 
 export const Aside = ({
   className,

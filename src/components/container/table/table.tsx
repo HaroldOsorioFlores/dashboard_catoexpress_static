@@ -12,26 +12,25 @@ import {
 } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 
-import { Products } from "@/models";
+import { Product } from "@/models";
 import { columTable } from "./table.model";
 import { DeleteIcon, SearchIcon, AddProduct, UpdateIcon } from "@/components";
 import { deleteProductById } from "@/services";
+import { UpdateProduct } from "../product/updateProduct";
 
 export const TableItems = ({
   products,
   refresh,
 }: {
-  products: Products[];
+  products: Product[];
   refresh: () => void;
 }): JSX.Element => {
   const [searchChange, setSearchChange] = useState<string>("");
-
   const path = usePathname();
 
-  const filterSearch = (): Products[] => {
-    const arraySearch: Products[] = products.filter((product) => {
+  const filterSearch = (): Product[] => {
+    const arraySearch: Product[] = products.filter((product) => {
       return (product.title && product.description)
         .toLocaleLowerCase()
         .includes(searchChange.toLocaleLowerCase());
@@ -40,8 +39,8 @@ export const TableItems = ({
   };
 
   const options = useCallback(
-    (item: Products, columnKey: React.Key) => {
-      const cellValue = item[columnKey as keyof Products];
+    (item: Product, columnKey: React.Key) => {
+      const cellValue = item[columnKey as keyof Product];
 
       const deleteProduct = async (id: string): Promise<string> => {
         const response: string = await deleteProductById(id, path);
@@ -62,17 +61,7 @@ export const TableItems = ({
       if (columnKey === "actions")
         return (
           <div className="flex gap-1">
-            <Tooltip content="Editar un producto">
-              <Button
-                className="cursor-pointer active:opacity-50 text-default-400  h-[2rem] w-[2rem] flex "
-                as={Link}
-                isIconOnly
-                variant="light"
-                href={`/product/update/${item._id}/${path}`}
-              >
-                <UpdateIcon props={{ className: "h-5 w-full self-center " }} />
-              </Button>
-            </Tooltip>
+            <UpdateProduct id={item._id} />
             <Tooltip content="Borrar un producto">
               <Button
                 className="cursor-pointer text-danger active:opacity-50 h-[2rem] w-[2rem] flex"

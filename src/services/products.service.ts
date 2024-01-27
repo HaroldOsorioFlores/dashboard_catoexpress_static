@@ -1,12 +1,12 @@
-import { Axios, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
-import { Products } from "@/models";
-import { apiBase, ceprobisEndPoint } from "./api";
+import { Product } from "@/models";
+import { apiBase } from "./api";
 import { NextResponse } from "next/server";
 
-export const getAllProducts = async (endPoint: string): Promise<Products[]> => {
+export const getAllProducts = async (endPoint: string): Promise<Product[]> => {
   try {
-    const data: AxiosResponse<Products[]> = await apiBase.get<Products[]>(
+    const data: AxiosResponse<Product[]> = await apiBase.get<Product[]>(
       endPoint
     );
     return data.data;
@@ -55,11 +55,9 @@ export const updateProductById = async (
 export const getProductById = async (
   id: string,
   endPoint: string
-): Promise<Products> => {
+): Promise<Product> => {
   try {
-    const data: AxiosResponse<Products> = await apiBase.get(
-      `${endPoint}/${id}`
-    );
+    const data: AxiosResponse<Product> = await apiBase.get(`${endPoint}/${id}`);
     return data.data;
   } catch (error) {
     throw new Error("error al obtener el producto por id");

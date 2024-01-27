@@ -1,13 +1,14 @@
 "use client";
-import { Layout } from "@/components";
-import { Products } from "@/models";
-import { getProductById, updateProductById } from "@/services";
 import { Button, Divider, Input, Textarea } from "@nextui-org/react";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
+import { Layout } from "@/components";
+import { Product } from "@/models";
+import { getProductById, updateProductById } from "@/services";
+
 const AddProduct = ({ params }: { params: { slug: string } }) => {
-  const [product, setProduct] = useState<Products>();
+  const [product, setProduct] = useState<Product>();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
