@@ -11,9 +11,9 @@ import {
 } from "@nextui-org/react";
 import { AddIcon } from "../..";
 import { dataInput } from "./addProduct.data";
-import { FormEvent, use, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { postProduct } from "@/services";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 export const AddProduct = ({

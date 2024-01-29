@@ -78,7 +78,12 @@ export const UpdateProduct = ({
           {(onClose) => {
             return (
               product && (
-                <form className="flex flex-col" onSubmit={handleSubmit}>
+                <form
+                  className="flex flex-col"
+                  onSubmit={handleSubmit}
+                  name={`update product ${product.place}`}
+                  id={product._id}
+                >
                   <ModalHeader>
                     <p>Actualizar producto</p>
                   </ModalHeader>
@@ -94,6 +99,7 @@ export const UpdateProduct = ({
                       classNames={{ label: "text-default-500" }}
                       onChange={(e) => setTitle(e.target.value)}
                       defaultValue={product.title}
+                      name={product.title}
                     />
                     <Textarea
                       size="md"
@@ -105,6 +111,7 @@ export const UpdateProduct = ({
                       onChange={(e) => setDescription(e.target.value)}
                       classNames={{ label: "text-default-500" }}
                       defaultValue={product.description}
+                      name={product.description}
                     />
                     <Input
                       size="md"
@@ -116,6 +123,7 @@ export const UpdateProduct = ({
                       onChange={(e) => setPrice(e.target.value)}
                       classNames={{ label: "text-default-500" }}
                       defaultValue={product.price}
+                      name={product.price}
                     />
                     <div className="flex-col  items-center justify-center w-full">
                       <p className="text-sm text-default-700 mb-1">
@@ -131,6 +139,7 @@ export const UpdateProduct = ({
                             alt="Imagen"
                             width={150}
                             height={150}
+                            priority
                             aria-required
                           />
                         ) : (

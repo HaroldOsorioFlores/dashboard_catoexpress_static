@@ -2,6 +2,7 @@
 import {
   Button,
   Input,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +16,7 @@ import { usePathname } from "next/navigation";
 
 import { Product } from "@/models";
 import { columTable } from "./table.model";
-import { DeleteIcon, SearchIcon, AddProduct, UpdateIcon } from "@/components";
+import { DeleteIcon, SearchIcon, AddProduct } from "@/components";
 import { deleteProductById } from "@/services";
 import { UpdateProduct } from "../product/updateProduct";
 
@@ -26,18 +27,8 @@ export const TableItems = ({
   products: Product[];
   refresh: () => void;
 }): JSX.Element => {
-  const [searchChange, setSearchChange] = useState<string>("");
+  const [searchChange, setSearchChange] = useState<Product[]>([]);
   const path = usePathname();
-
-  const filterSearch = (): Product[] => {
-    const arraySearch: Product[] = products.filter((product) => {
-      return (product.title && product.description)
-        .toLocaleLowerCase()
-        .includes(searchChange.toLocaleLowerCase());
-    });
-    return arraySearch;
-  };
-
   const options = useCallback(
     (item: Product, columnKey: React.Key) => {
       const cellValue = item[columnKey as keyof Product];
@@ -89,7 +80,16 @@ export const TableItems = ({
               startContent={<SearchIcon props={{ className: "h-4 w-5" }} />}
               size="sm"
               className="sm:max-w-[44%] "
-              onChange={(e) => setSearchChange(e.target.value)}
+              onChange={async (e) => {
+                const value = e.target.value;
+                const Fuse = (await import("fuse.js")).default;
+                const fuse = new Fuse(products, {
+                  keys: ["title", "description"],
+                });
+                const results = fuse.search(value);
+                const items = results.map((item) => item.item);
+                setSearchChange(items);
+              }}
             />
           </div>
           <div>
@@ -105,23 +105,30 @@ export const TableItems = ({
 
   return (
     <Table
-      color="secondary"
+      color="default"
       aria-label="Actions table products"
       isHeaderSticky
       bottomContentPlacement="outside"
       classNames={{
         wrapper: "sm:max-w-[23rem] md:max-w-full max-h-[30rem]",
+        th: ["bg-transparent"],
       }}
       topContentPlacement="outside"
       topContent={topContent}
+      removeWrapper
+      selectionMode="single"
+      isCompact
     >
-      <TableHeader>
-        {columTable.map((colum, index) => {
-          return <TableColumn key={index}>{colum.name}</TableColumn>;
-        })}
+      <TableHeader columns={columTable}>
+        {(colum) => {
+          return <TableColumn key={colum.uid}>{colum.name}</TableColumn>;
+        }}
       </TableHeader>
-      <TableBody>
-        {filterSearch().map((product) => (
+      <TableBody
+        emptyContent={<Spinner label="Cargando..." />}
+        items={searchChange.length === 0 ? products : searchChange}
+      >
+        {(product) => (
           <TableRow key={product._id}>
             {columTable.map((columnKey, index) => (
               <TableCell key={index}>
@@ -129,7 +136,7 @@ export const TableItems = ({
               </TableCell>
             ))}
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );
