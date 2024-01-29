@@ -7,19 +7,24 @@ import {
   Button,
 } from "@nextui-org/react";
 import Link from "next/link";
-
-import { CloseIcon, DashboardIcon, HamburguerIcon } from "../..";
 import { useMemo, useState } from "react";
+
+import {
+  CloseIcon,
+  DashboardIcon,
+  HamburguerIcon,
+  ManagmentUserIcon,
+  ModuleIcon,
+} from "../..";
 import { CatoexpressLogo } from "../../../../public/catoexpresslogo";
-import { asideItems } from "./aside-items";
+import { mainAdmin, mainMenu, mainModules } from "./aside-items";
 
 export const Aside = ({
   className,
 }: {
   className: string;
-}): React.ReactNode | null => {
+}): React.ReactNode => {
   const [visibleAside, setVisibleAside] = useState<boolean>(true);
-
   const memoListBox = useMemo(() => {
     return (
       <Listbox
@@ -27,48 +32,107 @@ export const Aside = ({
         variant="flat"
         className="p-0"
       >
-        {asideItems.map((item, index) => (
-          <ListboxSection
-            title={item.title}
-            showDivider
-            classNames={{
-              divider: "bg-white",
-              heading: "text-neutral-300",
-              group: "flex flex-col gap-2",
-            }}
-            key={index}
-          >
-            {item.module.map((item, index) => {
-              return (
-                <ListboxItem key={index} textValue={item.label} className="p-0">
-                  <Button
-                    href={item.path}
-                    className="w-full text-sm text-white flex justify-start"
-                    size="md"
-                    as={Link}
-                    color="primary"
-                    variant="light"
-                    startContent={item.icon}
-                  >
-                    {item.label}
-                  </Button>
-                </ListboxItem>
-              );
-            })}
-          </ListboxSection>
-        ))}
+        <ListboxSection
+          title={"Menu"}
+          showDivider
+          classNames={{
+            divider: "bg-white",
+            heading: "text-neutral-300",
+            group: "flex flex-col gap-2",
+          }}
+        >
+          {mainMenu.map((item, index) => {
+            return (
+              <ListboxItem key={index} textValue={item.label} className="p-0">
+                <Button
+                  href={item.path}
+                  className="w-full text-sm text-white flex justify-start"
+                  size="md"
+                  as={Link}
+                  color="primary"
+                  variant="light"
+                  startContent={
+                    <DashboardIcon
+                      props={{ className: "h-5 w-5 text-white" }}
+                    />
+                  }
+                >
+                  {item.label}
+                </Button>
+              </ListboxItem>
+            );
+          })}
+        </ListboxSection>
+        <ListboxSection
+          title={"Modulos"}
+          showDivider
+          classNames={{
+            divider: "bg-white",
+            heading: "text-neutral-300",
+            group: "flex flex-col gap-2",
+          }}
+        >
+          {mainModules.map((item, index) => {
+            return (
+              <ListboxItem key={index} textValue={item.label} className="p-0">
+                <Button
+                  href={item.path}
+                  className="w-full text-sm text-white flex justify-start"
+                  size="md"
+                  as={Link}
+                  color="primary"
+                  variant="light"
+                  startContent={
+                    <ModuleIcon props={{ className: "h-5 w-5 text-white" }} />
+                  }
+                >
+                  {item.label}
+                </Button>
+              </ListboxItem>
+            );
+          })}
+        </ListboxSection>
+        <ListboxSection
+          title={"Administracion"}
+          showDivider
+          classNames={{
+            divider: "bg-white",
+            heading: "text-neutral-300",
+            group: "flex flex-col gap-2",
+          }}
+        >
+          {mainAdmin.map((item, index) => {
+            return (
+              <ListboxItem key={index} textValue={item.label} className="p-0">
+                <Button
+                  href={item.path}
+                  className="w-full text-sm text-white flex justify-start"
+                  size="md"
+                  as={Link}
+                  color="primary"
+                  variant="light"
+                  startContent={
+                    <ManagmentUserIcon
+                      props={{ className: "h-5 w-5 text-white" }}
+                    />
+                  }
+                >
+                  {item.label}
+                </Button>
+              </ListboxItem>
+            );
+          })}
+        </ListboxSection>
       </Listbox>
     );
   }, []);
-
   return visibleAside ? (
     <aside className={className}>
       <Button
         size="sm"
         variant="light"
-        className="self-end"
+        className="flex justify-end  self-end relative left-3 top-3"
         color="default"
-        isIconOnly
         onClick={() => setVisibleAside(!visibleAside)}
       >
         {CloseIcon}
